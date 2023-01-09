@@ -1,0 +1,30 @@
+/*
+ * Work-around for erratum A-008851
+ *
+ * A-008851: Invalid transmitter/receiver preset values are used
+ * in Gen3 equalization phases during link training for RC mode
+ * Workaround:
+ *  write 0x00000001 to MISC_CONTROL_1_OFF
+ *  write 0x4747 to Lane Equalization Control register for each lane
+ *
+ * ALTCBAR Register (SCFG_ALTCBAR): 0x0157_0158 big endian
+ * PBL is also big endian block on LS1046A
+ */
+
+.pbi
+write 0x570158, 0x00000300
+flush
+
+awrite 0x4008bc, 0x01000000
+awrite 0x400154, 0x47474747
+awrite 0x400158, 0x47474747
+awrite 0x4008bc, 0x00000000
+
+awrite 0x5008bc, 0x01000000
+awrite 0x500154, 0x00004747
+awrite 0x5008bc, 0x00000000
+
+awrite 0x6008bc, 0x01000000
+awrite 0x600154, 0x47474747
+awrite 0x6008bc, 0x00000000
+.end

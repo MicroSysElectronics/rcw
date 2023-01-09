@@ -1,0 +1,43 @@
+/*
+ * Work-around for erratum A-008098
+ *
+ * Description:
+ * The PCI Express controller may fail to discard a bad packet when there
+ * are excessive, correctable errors resulting in corrupted memory.
+ *
+ * Impact:
+ * While running in an environment with many correctable errors the PCI
+ * Express controller can corrupt memory.
+ */
+
+.pbi
+write 0x240000, 0x87000048
+write 0x240004, 0x80802040
+write 0x240000, 0x8700004c
+write 0x240004, 0x02c02000
+write 0x240000, 0x87000050
+write 0x240004, 0x00002000
+
+write 0x250000, 0x87000048
+write 0x250004, 0x80802040
+write 0x250000, 0x8700004c
+write 0x250004, 0x02c02000
+write 0x250000, 0x87000050
+write 0x250004, 0x00002000
+
+
+write 0x260000, 0x87000048
+write 0x260004, 0x80802040
+write 0x260000, 0x8700004c
+write 0x260004, 0x02c02000
+write 0x260000, 0x87000050
+write 0x260004, 0x00002000
+
+write 0x270000, 0x87000048
+write 0x270004, 0x80802040
+write 0x270000, 0x8700004c
+write 0x270004, 0x02c02000
+write 0x270000, 0x87000050
+write 0x270004, 0x00002000
+flush
+.end

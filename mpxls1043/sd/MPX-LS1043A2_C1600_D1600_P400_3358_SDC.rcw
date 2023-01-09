@@ -1,0 +1,37 @@
+#include <ls1043a.rcwi>
+
+SYS_PLL_RAT=4
+MEM_PLL_RAT=16
+CGA_PLL1_RAT=16
+CGA_PLL2_RAT=10
+SRDS_PRTCL_S1=0x3358
+FM1_MAC_RAT=1
+DDR_FDBK_MULT=2
+PBI_SRC=6
+IFC_MODE=0x107
+HWA_CGA_M1_CLK_SEL=6
+DRAM_LAT=1
+SYS_PLL_SPD=1
+IRQ_EXT=0
+UART_BASE=6
+ASLEEP=1
+RTC=1
+IRQ_OUT=1
+IRQ_BASE=0x1ff
+IFC_GRP_A_EXT=1
+IFC_GRP_F_EXT=1
+IFC_GRP_E1_BASE=1
+IFC_GRP_D_BASE=1
+IFC_GRP_A_BASE=1
+IFC_A_22_24=1
+DVDD_VSEL=2
+QE_CLK_OVRRIDE=1
+SYSCLK_FREQ=0x258
+HWA_CGA_M2_CLK_SEL=1
+
+#include <cci_barrier_disable.rcw>
+#include <usb_phy_freq.rcw>
+#include <uboot_address.rcw>
+#include <dcsr_mbist.rcw>
+#include <serdes_sata.rcw>
+#include <pex_gen3_link.rcw>

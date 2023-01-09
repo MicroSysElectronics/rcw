@@ -1,0 +1,38 @@
+/* Serdes lane equalization settings for 25G only applicable for serdes1 lane F */
+/* See AN12950.pdf for more information */
+/* Values for MPXLX2160A-R2 on CRX08-R1 */
+.pbi
+write 0x01EA0D28,0x00000000
+
+/* 25G-AUI C2C */
+/* write 0x01EA0D30,0x20828720 */
+/* 25G-AUI C2M */
+write 0x01EA0D30,0x20828700
+
+/* Values taken from AN12950.pdf */
+/*
+write 0x01EA0D44,0x03000330
+write 0x01EA0D48,0x10000000
+write 0x01EA0D50,0x00000085
+write 0x01EA0D58,0xA1000023
+*/
+/* Values taken from Codewarrior Professional Expert Tool */
+write 0x01EA0D00,0x000000D4
+write 0x01EA0D44,0x03000000
+write 0x01EA0D48,0x00000000
+write 0x01EA0D24,0x03000000
+write 0x01EA0D40,0x40003090
+write 0x01EA0D20,0x40000050
+write 0x01EA0D58,0x81000020
+write 0x01EA0D34,0x30000000
+
+/*
+write 0x01EA0D50,0x00000085
+*/
+
+/* Values taken from ../lx2160asi/25g_eq_s1_lane_e.rcw */
+write 0x01EA0D68,0x80000000
+write 0x01EA0D74,0x00002020
+write 0x01EA0D80,0x00008000
+
+.endif

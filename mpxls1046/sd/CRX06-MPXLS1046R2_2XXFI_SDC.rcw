@@ -1,0 +1,56 @@
+#include <ls1046a.rcwi>
+
+SYS_PLL_RAT=6
+MEM_PLL_RAT=21
+CGA_PLL1_RAT=16
+CGA_PLL2_RAT=12
+SRDS_PRTCL_S1=0x1133
+SRDS_PRTCL_S2=0x8888
+SRDS_PLL_REF_CLK_SEL_S1=1
+SRDS_PLL_REF_CLK_SEL_S2=0
+SRDS_DIV_PEX_S1=1
+SRDS_DIV_PEX_S2=0
+DDR_REFCLK_SEL=1
+DDR_FDBK_MULT=2
+PBI_SRC=6
+IFC_MODE=0x44
+HWA_CGA_M1_CLK_SEL=2
+DRAM_LAT=1
+IRQ_EXT=0
+UART_BASE=6
+ASLEEP=1
+RTC=1
+IRQ_OUT=1
+IRQ_BASE=0x1ff
+IFC_GRP_A_EXT=1
+IFC_GRP_D_EXT=1
+IFC_GRP_E1_EXT=1
+IFC_GRP_F_EXT=1
+IFC_GRP_D_BASE=1
+IFC_GRP_A_BASE=1
+DVDD_VSEL=2
+SYSCLK_FREQ=0x258
+HWA_CGA_M2_CLK_SEL=1
+
+/* Modify QSPI flash clock divisor */
+#include <../ls1046ardb/qspi_divisor_24.rcw>
+#include <../ls1046ardb/cci_barrier_disable.rcw>
+#include <../ls1046ardb/usb_phy_freq.rcw>
+#include <../ls1046ardb/a008851.rcw>
+#include <../ls1046ardb/a010477.rcw>
+#include <../ls1046ardb/a009531.rcw>
+#include <../ls1046ardb/qspi_endianness.rcw>
+
+.pbi
+write 0x0057015c,0x20100000
+write 0x00570600,0x00000000
+write 0x00570604,0x40100000
+write 0x00570178,0x0000e010
+write 0x00180000,0x00000008
+write 0x00570418,0x0000009e
+write 0x0057041c,0x0000009e
+write 0x00570420,0x0000009e
+write 0x00eb1300,0x80104e20
+write 0x00eb08dc,0x00502880
+/* CRC and Stop command (CRC 0x98e3af70)*/
+.end

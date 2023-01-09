@@ -1,0 +1,166 @@
+#include <ls1088rdb.rcwi>
+
+SYS_PLL_RAT=6
+MEM_PLL_RAT=21
+CGA_PLL1_RAT=16
+CGA_PLL2_RAT=16
+HWA_CGA_M1_CLK_SEL=2
+HWA_CGA_M2_CLK_SEL=1
+DDR_REFCLK_SEL=2
+DRAM_LAT=1
+BOOT_LOC=20
+FLASH_MODE=2
+PBI_LENGTH=60
+SYSCLK_FREQ=0x258
+IIC3_EXT=1
+UART_EXT=0
+UART_BASE=0
+IIC2_BASE=1
+IIC3_BASE=1
+IIC4_BASE=1
+ASLEEP=1
+
+RTC=1 /* configure RTC pin as GPIO3_30 */
+
+/*
+Signal
+
+IFC_PAR1   / GPIO2_07 / QSPI_B_DATA1 / QSPI_A_DATA5
+IFC_PERR_B / GPIO2_16 / QSPI_B_DATA2 / QSPI_A_DATA6
+
+*/
+
+/*
+ * 0b00 -- {IFC_A[25:27]}
+ * 0b01 -- 3 pins GPIO
+ * 0b10 -- {IFC_RB_B[2:3]} for 16b data bus pinouts with 28b of addressability O
+ * 0b11 -- QuadSPI enabled. Not just IFC_A[25:27], but all of IFC_A pins >16, IFC_PAR,
+ *         IFC_CS_B[3], IFC_PERR_B function as QuadSPI.
+ */
+IFC_GRP_A_BASE=3
+
+/*
+ * 0b00 -- {IFC_PAR[0:1], IFC_PERR_B}
+ * 0b01 -- {IFC_NDDQS_B, IFC_NDRE_B, 3 pins GPIO}
+ * 0b10 -- 5 pins GPIO
+ */
+IFC_GRP_D_BASE=2
+
+/*
+ * 0b00 -- {IFC_RB_B[1], IFC_CS_B[1:7]}
+ * 0b01 -- {IFC_RB_B[1], IFC_CS_B[1:3], 4 pins GPIO}
+ * 0b10 -- 8 pins GPIO
+ * 0b11 -- reserved
+ */
+IFC_GRP_E_BASE=0
+
+/*
+ * 0b00 -- IFC_A[0:24] pins function as IFC
+ * 0b01 -- IFC_A[0:15] pins function as IFC
+ * 0b10 -- IFC_A[0:7] pins function as IFC, IFC[8:24] pins function as GPIO
+ * 0b11 -- IFC_A[0:24] pins function as GPIO. IFC disabled.
+ */
+IFC_GRP_FGHI_BASE=0
+
+/*
+ * 0b0 - 4-bit QuadSPI "A" and 4-bit QuadSPI "B" interfaces supported.
+ *       No high speed CK or CK2 clocks supported.
+ * 0b1 - 1'b1 - 8-bit QuadSPI "A" interface supported, together with high
+ *       speed differential CK and CK2 clocks.
+ */
+QSPI_OCT_EN=0
+
+/*
+As long as EC1 == 0 MAC4 is always RGMII and not SGMII.
+*/
+/*
+ * 0b000 - WRIOP MAC4 RGMII
+ * 0b001 - GPIO2,GPIO4
+ */
+EC1=1
+
+/*
+As long as EC2 == 0 MAC5 is always RGMII and not SGMII.
+*/
+/*
+ * 0b000 - WRIOP MAC5 RGMII
+ * 0b001 - GPIO4
+ * 0b010 - 1588
+ */
+EC2=1
+
+/*
+ * 0b0 - WRIOP MDIO1
+ * 0b1 - GPIO4
+ */
+/*EM1=0*/
+
+/*
+ * 0b0 - WRIOP MDIO2
+ * 0b1 - GPIO2
+ */
+/*EM2=0*/
+
+USB1_CLK_FSEL=39
+USB2_CLK_FSEL=39
+SRDS_PRTCL_S1_LN0=1
+SRDS_PRTCL_S1_LN1=1
+SRDS_PRTCL_S1_LN2=4
+SRDS_PRTCL_S1_LN3=4
+SRDS_PRTCL_S2_LN0=8
+SRDS_PRTCL_S2_LN1=8
+SRDS_PRTCL_S2_LN2=8
+SRDS_PRTCL_S2_LN3=8
+
+SRDS_S1_REFCLK_SRC_SEL=0
+SRDS_S2_REFCLK_SRC_SEL=0
+
+.pbi
+blockcopy 0x40,0x00100000,0x1800a000,0x00016000
+
+write 0x01e00404,0x00000000
+write 0x01e00400,0x1800a000
+write 0x02200000,0x00000000
+write 0x01e60010,0x00120000
+
+// Errata A-008851
+write 0x034008bc,0x00000001
+write 0x03400164,0x47474747
+write 0x03400168,0x47474747
+
+write 0x035008bc,0x00000001
+write 0x03500154,0x47474747
+write 0x03500158,0x47474747
+
+write 0x036008bc,0x00000001
+write 0x03600154,0x47474747
+write 0x03600158,0x47474747
+
+write 0x034008bc,0x00000000
+write 0x035008bc,0x00000000
+write 0x036008bc,0x00000000
+
+// Errata A-010477
+write 0x03400890,0x00800401
+write 0x03500890,0x00800401
+write 0x03600890,0x00800401
+
+// Errata A-008822
+write 0x034008d0,0x00009401
+write 0x035008d0,0x00009401
+write 0x036008d0,0x00009401
+
+// Errata A-009531
+write 0x3400098, 0x00000000
+write 0x3500098, 0x00000000
+write 0x3600098, 0x00000000
+
+// Errata A-010554
+write 0x01eb1300,0x80104e20
+
+// Errata A-009102
+write 0x01eb08dc,0x00502880
+
+/* CRC and Stop command (CRC 0x888860b5)*/
+/* Unknown word 0x0000000a */
+.end

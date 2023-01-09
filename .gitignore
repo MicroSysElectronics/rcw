@@ -1,0 +1,5 @@
+*.bin
+*.swapped
+*.rcw.unswapped
+.project
+.pydevproject
